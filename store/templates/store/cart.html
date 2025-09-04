@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container my-4">
+  <h2>Your Cart</h2>
+
+  {% if cart %}
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Product</th>
+        <th>Price</th>
+        <th>Qty</th>
+        <th>Total</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for key, item in cart.items %}
+      <tr>
+        <td>{{ item.name }}</td>
+        <td>₹{{ item.price }}</td>
+        <td>{{ item.quantity }}</td>
+        <td>₹{{ item.price|floatformat:2|add:item.quantity|floatformat:2 }}</td>
+        <td>
+          <a href="{% url 'remove_from_cart' key %}" class="btn btn-danger btn-sm">Remove</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <h4>Total: ₹{{ total }}</h4>
+  <a href="{% url 'checkout_cart' %}" class="btn btn-success">Proceed</a>
+
+  {% else %}
+  <p>Your cart is empty.</p>
+  {% endif %}
+</div>
+{% endblock %}

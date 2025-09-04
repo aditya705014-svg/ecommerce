@@ -76,7 +76,7 @@ def product_detail(request, pk):
 from django.shortcuts import render, redirect
 from django.http import Http404
 
-# 👇 Ye aapka TEMP data hai
+# Ye aapka TEMP data hai
 PRODUCTS = {
     1: {
         "name": "Apple iPhone 11 (Black, 64GB)",
@@ -122,7 +122,7 @@ def product_detail(request, pk):
     product = PRODUCTS.get(pk)   # <-- ab dict se data milega
     if not product:
         raise Http404("Product not found")
-    return render(request, "store/checkout.html", {"product": product, "pk": pk , "no_navbar": True})
+    return render(request, "store/checkout.html", {"product": product, "pk": pk })
 
 
 # Checkout (form submit ke baad)
@@ -159,3 +159,83 @@ def order_sucess(request):
         
     })
 
+# cart 
+#  Store page (sab products dikhane ke liye)
+def store(request):
+    products = Product.objects.all()
+    return render(request, "store/store.html", {"products": products})
+
+
+#  Add product to cart
+def add_to_cart(request, pk):
+    product = get_object_or_404(Product, id=pk)
+    cart = request.session.get("cart", {})
+
+    # Agar product pehle se cart me hai -> quantity badhao
+    if str(pk) in cart:
+        cart[str(pk)]["quantity"] += 1
+    else:
+        cart[str(pk)] = {
+            "name": product.name,
+            "price": float(product.price),
+            "quantity": 1,
+        }
+
+    request.session["cart"] = cart  # session update
+    return redirect("cart")
+
+
+#  Remove product from cart
+def remove_from_cart(request, key):
+    cart = request.session.get("cart", {})
+    if key in cart:
+        del cart[key]
+    request.session["cart"] = cart
+    return redirect("cart")
+
+
+
+
+#  Cart page (sab products dikhana + total calculate karna)
+def cart(request):
+    cart = request.session.get("cart", {})
+    total = sum(item["price"] * item["quantity"] for item in cart.values())
+    return render(request, "store/cart.html", {"cart": cart, "total": total})
+
+
+#  Single product checkout
+def checkout_single(request, pk):
+    product = get_object_or_404(Product, pk=pk)
+
+    if request.method == "POST":
+        # Yahan par aap order save kar sakte ho (baad me model add karenge)
+        name = request.POST.get("name")
+        email = request.POST.get("email")
+        address = request.POST.get("delivery")
+        payment = request.POST.get("payment")
+
+        # abhi ke liye console me check karne ke liye:
+        print("Single Checkout:", name, email, address, payment, product.name)
+
+        return redirect("store")  # baad me success page bana denge
+
+    return render(request, "store/checkout.html", {"product": product})
+
+
+#  Cart checkout (without pk)
+def checkout_cart(request):
+    cart = request.session.get("cart", {})
+    total = sum(item["price"] * item["quantity"] for item in cart.values())
+
+    if request.method == "POST":
+        name = request.POST.get("name")
+        email = request.POST.get("email")
+        address = request.POST.get("delivery")
+        payment = request.POST.get("payment")
+
+        # abhi ke liye console me check karne ke liye:
+        print("Cart Checkout:", name, email, address, payment, cart)
+
+        return redirect("store")  # baad me success page bana denge
+
+    return render(request, "store/checkout_cart.html", {"cart": cart, "total": total})

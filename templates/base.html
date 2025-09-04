@@ -51,22 +51,6 @@
           <li class="nav-item"><a class="nav-link" href="/services">Services</a></li>
         </ul>
 
-        <div class="dropdown">  
-          <a class="btn2 btn-light dropdown-toggle" href="#" role="button" id="loginMenu" data-bs-toggle="dropdown"
-            aria-expanded="false">
-            Login
-          </a>
-
-          <ul class="dropdown-menu custom-dropdown" aria-labelledby="loginMenu">
-            <li><a class="dropdown-item" href="#">Profile</a></li>
-            <li><a class="dropdown-item" href="#">Settings</a></li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-            <li><a class="dropdown-item text-danger" href="{% url 'logout' %}">Logout</a></li>
-          </ul>
-        </div>
-
 
         <!--Search form aligned to right -->
         <form class="d-flex ms-auto" role="search">
@@ -96,7 +80,7 @@
 
       <!-- Sidebar Links -->
       <ul class="nav nav-pills flex-column mb-auto">
-        <li class="nav-item"><a href="/" class="nav-link active text-white">🏠 Home</a></li>
+        <li class="nav-item"><a href="/" class="nav-link active text-white"> Home</a></li>
         <li><a href="/flavours" class="nav-link text-white">Orders</a></li>
         <li><a href="/orders" class="nav-link text-white">cart</a></li>
         <li><a href="/about" class="nav-link text-white">customer Services</a></li>
@@ -105,8 +89,8 @@
 
       <!-- Dropdown under profile -->
       <div>
-        <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
-          data-bs-toggle="dropdown">
+        <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="userDropdown"
+          role="button" data-bs-toggle="dropdown" aria-expanded="false">
           <img src="{% static 'images/user.png' %}" alt="User" width="32" height="32" class="rounded-circle me-2">
           <strong>User</strong>
         </a>
@@ -131,6 +115,7 @@
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 <!-- Bootstrap Bundle with Popper (ye zaroori hai dropdown ke liye) -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

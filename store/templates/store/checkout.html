@@ -1,0 +1,41 @@
+{% extends "base_nonav.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container my-4">
+    <div class="row g-4">
+        <!-- Product Image -->
+        <div class="col-md-5 text-center">
+            <img src="{% static product.image_static %}" alt="{{ product.name }}" class="img-fluid rounded">
+        </div>
+
+        <!-- Product Details & Checkout Form -->
+        <div class="col-md-7">
+            <h2 class="mb-2">{{ product.name }}</h2>
+            <p class="text-muted">{{ product.description }}</p>
+            <h4 class="mb-4">Price: ₹{{ product.price }}</h4>
+
+            <h5 class="mb-2">Select Payment Option</h5>
+
+            <!--  Single Form -->
+            <form method="post" action="{% url 'checkout' pk %}">
+                {% csrf_token %}
+
+                <!-- COD Option -->
+                <div class="form-check mb-3">
+                    <input class="form-check-input" type="radio" name="payment" id="cod" value="COD" checked>
+                    <label class="form-check-label" for="cod">Cash on Delivery</label>
+                </div>
+
+                <!-- Address Fields -->
+                <input type="text" name="name" placeholder="Your Name" class="form-control mb-2" required>
+                <input type="email" name="email" placeholder="Your Email" class="form-control mb-2" required>
+                <textarea name="delivery" placeholder="Your delivery address" class="form-control mb-3" required></textarea>
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn btn-success">Proceed</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

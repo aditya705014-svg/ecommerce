@@ -155,7 +155,7 @@ def category_products(request, category_id):
 
 
 def order_sucess(request):
-    return render(request, "store/order_sucess.html", {
+    return render(request, "store/order_success.html", {
         
     })
 
@@ -167,22 +167,28 @@ def store(request):
 
 
 #  Add product to cart
+
 def add_to_cart(request, pk):
-    product = get_object_or_404(Product, id=pk)
     cart = request.session.get("cart", {})
 
-    # Agar product pehle se cart me hai -> quantity badhao
+    product = PRODUCTS.get(pk)
+    if not product:
+        return redirect("cart")  # Agar product invalid ho toh redirect
+
     if str(pk) in cart:
         cart[str(pk)]["quantity"] += 1
     else:
         cart[str(pk)] = {
-            "name": product.name,
-            "price": float(product.price),
+            "name": product["name"],
+            "price": float(product["price"]),
+            "description": product["description"],
+            "image_static": product["image_static"],
             "quantity": 1,
         }
 
-    request.session["cart"] = cart  # session update
+    request.session["cart"] = cart
     return redirect("cart")
+
 
 
 #  Remove product from cart
@@ -199,33 +205,42 @@ def remove_from_cart(request, key):
 #  Cart page (sab products dikhana + total calculate karna)
 def cart(request):
     cart = request.session.get("cart", {})
-    total = sum(item["price"] * item["quantity"] for item in cart.values())
+
+    for item in cart.values():
+        item['total'] = item['price'] * item['quantity']
+
+    total = sum(item["total"] for item in cart.values())
+
     return render(request, "store/cart.html", {"cart": cart, "total": total})
 
 
 #  Single product checkout
 def checkout_single(request, pk):
-    product = get_object_or_404(Product, pk=pk)
+    product = PRODUCTS.get(pk)
+    if not product:
+        return redirect("cart")
 
     if request.method == "POST":
-        # Yahan par aap order save kar sakte ho (baad me model add karenge)
         name = request.POST.get("name")
         email = request.POST.get("email")
         address = request.POST.get("delivery")
         payment = request.POST.get("payment")
 
-        # abhi ke liye console me check karne ke liye:
-        print("Single Checkout:", name, email, address, payment, product.name)
+        print("Single Checkout:", name, email, address, payment, product)
 
-        return redirect("store")  # baad me success page bana denge
+        return redirect("cart")
 
-    return render(request, "store/checkout.html", {"product": product})
+    return render(request, "store/order.html", {"product": product})
 
 
 #  Cart checkout (without pk)
 def checkout_cart(request):
     cart = request.session.get("cart", {})
-    total = sum(item["price"] * item["quantity"] for item in cart.values())
+
+    for item in cart.values():
+        item['total'] = item['price'] * item['quantity']
+
+    total = sum(item["total"] for item in cart.values())
 
     if request.method == "POST":
         name = request.POST.get("name")
@@ -233,9 +248,14 @@ def checkout_cart(request):
         address = request.POST.get("delivery")
         payment = request.POST.get("payment")
 
-        # abhi ke liye console me check karne ke liye:
         print("Cart Checkout:", name, email, address, payment, cart)
 
-        return redirect("store")  # baad me success page bana denge
+        request.session["cart"] = {}  # Cart clear after checkout
+        return redirect("success_cart")  # ya store page
 
     return render(request, "store/checkout_cart.html", {"cart": cart, "total": total})
+
+# add to cart me checkout ke bad wla page ke liya
+def success_cart(request):
+    order = request.session.get('last_order', None)  # last order fetch
+    return render(request, "store/order_success.html", {"order": order})

@@ -2,6 +2,105 @@
 {% load static %}
 
 {% block content %}
+<style>
+div.container {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+div.row.g-4 {
+    align-items: center;
+}
+div.col-md-5 img {
+    max-width: 100%;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+}
+
+div.col-md-5 img:hover {
+    transform: scale(1.05);
+}
+div.col-md-7 h2 {
+    font-size: 28px;
+    font-weight: 600;
+    color: #333;
+}
+
+div.col-md-7 p.text-muted {
+    font-size: 16px;
+    color: #555;
+}
+
+div.col-md-7 h4 {
+    color: #007bff;
+    font-weight: 600;
+}
+
+div.col-md-7 h5 {
+    margin-top: 20px;
+    margin-bottom: 15px;
+    color: #333;
+    font-weight: 500;
+}
+
+div.col-md-7 .form-control {
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    transition: all 0.3s ease;
+}
+
+div.col-md-7 .form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 8px rgba(0,123,255,0.2);
+    outline: none;
+}
+
+
+div.col-md-7 .form-check-input {
+    cursor: pointer;
+}
+
+div.col-md-7 .form-check-label {
+    font-weight: 500;
+    cursor: pointer;
+}
+
+/* Submit Button */
+div.col-md-7 .btn-success {
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+div.col-md-7 .btn-success:hover {
+    background-color: #218838;
+    transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+    div.row.g-4 {
+        flex-direction: column;
+    }
+
+    div.col-md-5, div.col-md-7 {
+        text-align: center;
+    }
+
+    div.col-md-7 form input, 
+    div.col-md-7 form textarea {
+        width: 100%;
+    }
+}
+</style>
+
+
 <div class="container my-4">
     <div class="row g-4">
         <!-- Product Image -->

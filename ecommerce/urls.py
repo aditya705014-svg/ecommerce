@@ -13,4 +13,3 @@ urlpatterns = [
 urlpatterns += [
     path("", lambda request: redirect("login")),
 ]
-

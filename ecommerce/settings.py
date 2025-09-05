@@ -137,8 +137,3 @@ LOGIN_REDIRECT_URL = '/'   # login ke baad sidhe home page (store) pe bhejega
 # yestatic ka url hai
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [BASE_DIR / "static"]
-
-
-
-
-

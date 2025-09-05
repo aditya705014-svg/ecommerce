@@ -1,7 +1,118 @@
 {% extends "base.html" %}
 {% block content %}
 
-<div class="container my-4">
+
+<style>
+div.container.checkout {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 25px;
+    background: #fefefe;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+div.container.checkout table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 10px;
+    margin-bottom: 25px;
+}
+
+div.container.checkout th, 
+div.container.checkout td {
+    padding: 12px 15px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+    font-size: 16px;
+}
+
+div.container.checkout th {
+    background-color: #007bff;
+    color: white;
+    border-radius: 8px 8px 0 0;
+}
+div.container.checkout tbody tr {
+    background: #fff;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+}
+
+div.container.checkout tbody tr:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+}
+div.container.checkout h4 {
+    color: #333;
+    margin-bottom: 25px;
+    font-weight: 600;
+}
+div.container.checkout form input,
+div.container.checkout form textarea {
+    width: 100%;
+    padding: 10px 12px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+div.container.checkout form input:focus,
+div.container.checkout form textarea:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 8px rgba(0,123,255,0.2);
+    outline: none;
+}
+div.container.checkout form button {
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+div.container.checkout form button:hover {
+    background-color: #218838;
+    transform: translateY(-2px);
+}
+@media (max-width: 768px) {
+    div.container.checkout table, 
+    div.container.checkout thead, 
+    div.container.checkout tbody, 
+    div.container.checkout th, 
+    div.container.checkout td, 
+    div.container.checkout tr {
+        display: block;
+    }
+
+    div.container.checkout tr {
+        margin-bottom: 15px;
+    }
+
+    div.container.checkout td {
+        text-align: right;
+        padding-left: 50%;
+        position: relative;
+    }
+
+    div.container.checkout td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 15px;
+        width: calc(50% - 30px);
+        font-weight: 600;
+        text-align: left;
+        color: #333;
+    }
+}
+</style>
+
+<div class="container checkout my-4">
     <h2>Checkout - Your Cart</h2>
     <table class="table">
         <thead>
@@ -32,6 +143,7 @@
         <input type="email" name="email" placeholder="Your Email" required>
         <textarea name="delivery" placeholder="Delivery Address" required></textarea>
         <button type="submit" class="btn btn-success">Proceed</button>
+
     </form>
 </div>
 

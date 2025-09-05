@@ -1,6 +1,87 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="container my-4">
+
+<style>
+div.container-cart {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+div.container-cart h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #333;
+    font-size: 28px;
+    font-weight: 600;
+}
+div.container-cart table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+div.container-cart table thead {
+    background: #007bff;
+    color: #fff;
+}
+
+div.container-cart table th,
+div.container-cart table td {
+    padding: 12px 15px;
+    text-align: center;
+}
+
+div.container-cart table tbody tr:nth-child(even) {
+    background: #f2f2f2;
+}
+
+div.container-cart table tbody tr:hover {
+    background: #e0f0ff;
+    transition: all 0.3s ease;
+}
+div.container-cart a.btn {
+    padding: 6px 12px;
+    border-radius: 6px;
+    text-decoration: none;
+    color: #fff;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+div.container-cart a.btn-danger {
+    background: #dc3545;
+}
+
+div.container-cart a.btn-danger:hover {
+    background: #c82333;
+}
+
+div.container-cart a.btn-success {
+    background: #28a745;
+    display: inline-block;
+    margin-top: 15px;
+}
+
+div.container-cart a.btn-success:hover {
+    background: #218838;
+}
+div.container-cart h4 {
+    text-align: right;
+    margin-top: 20px;
+    color: #007bff;
+    font-weight: 600;
+}
+</style>
+
+
+<div class="container-cart my-4">
   <h2>Your Cart</h2>
 
   {% if cart %}
@@ -30,6 +111,8 @@
   </table>
 
   <h4>Total: ₹{{ total }}</h4>
+  <br>
+
   <a href="{% url 'checkout_cart' %}" class="btn btn-success">Proceed</a>
 
   {% else %}
